@@ -1,4 +1,16 @@
 var OptionsMenu = function(menu) {
+    var detectIconSize = function() {
+        var width = screen.width;
+        if (width >= 640) {
+            return 72;
+        } else if (width >= 470) {
+            return 48;
+        } else {
+            return 36;
+        }
+    };
+
+    var iconSize = detectIconSize();
     var menuDiv = document.createElement("div");
     menuDiv.setAttribute("id", menu.id);
     menuDiv.setAttribute("style", "display: none; position: fixed; bottom: 0; width: 100%");
@@ -6,23 +18,37 @@ var OptionsMenu = function(menu) {
     menuTable.setAttribute("width", "100%");
     menuTable.setAttribute("cellpadding", "0");
     menuTable.setAttribute("cellspacing", "0");
-    menuTable.appendChild(document.createElement("tr"));
-    var width = Math.ceil(100 / menu.items.length) + "%";
     for (i in menu.items) {
-        var menuItem = document.createElement("td");
-        menuItem.setAttribute("align", "center");
-        menuItem.setAttribute("width", width);
-        menuItem.setAttribute("style", "color: white; border-top: 1px solid grey; border-right: 1px solid grey; background-color: black");
-        menuItem.addEventListener("click", menu.items[i].action, false);
-        menuItem.addEventListener("click", function() {
-                document.getElementById(menu.id).style.display = 'none';
-            }, false);
-        var imgItem = document.createElement("img");
-        imgItem.setAttribute("src", menu.items[i].image);
-        menuItem.appendChild(imgItem);
-        menuItem.appendChild(document.createElement("br"));
-        menuItem.appendChild(document.createTextNode(menu.items[i].label));
-        menuTable.appendChild(menuItem);
+        menuTable.appendChild(document.createElement("tr"));
+        menuTable.appendChild(document.createElement("td"));
+        var rowTable = document.createElement("table");
+        rowTable.setAttribute("width", "100%");
+        rowTable.setAttribute("cellpadding", "0");
+        rowTable.setAttribute("cellspacing", "0");
+        rowTable.appendChild(document.createElement("tr"));
+        var width = Math.ceil(100 / menu.items[i].length) + "%";
+        for (j in menu.items[i]) {
+            var item = menu.items[i][j];
+            var menuItem = document.createElement("td");
+            menuItem.setAttribute("align", "center");
+            menuItem.setAttribute("width", width);
+            menuItem.setAttribute("style", "color: white; font-weight: bold; border-top: 1px solid grey; border-right: 1px solid grey; background-color: black");
+            menuItem.addEventListener("click", item.action, false);
+            menuItem.addEventListener("click", function() {
+                    document.getElementById(menu.id).style.display = 'none';
+                }, false);
+            if (item.image) {
+                var imgItem = document.createElement("img");
+                imgItem.setAttribute("src", item.image);
+                imgItem.setAttribute("width", iconSize);
+                imgItem.setAttribute("height", iconSize);
+                menuItem.appendChild(imgItem);
+            }
+            menuItem.appendChild(document.createElement("br"));
+            menuItem.appendChild(document.createTextNode(item.label));
+            rowTable.appendChild(menuItem);
+        }
+        menuTable.appendChild(rowTable);
     }
     menuDiv.appendChild(menuTable);
     document.body.appendChild(menuDiv);

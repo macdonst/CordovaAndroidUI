@@ -15,17 +15,17 @@ var OptionsMenu = function(menu) {
     menuDiv.setAttribute("id", menu.id);
     menuDiv.setAttribute("style", "display: none; position: fixed; bottom: 0; width: 100%");
     var menuTable = document.createElement("table");
-    menuTable.setAttribute("width", "100%");
+    menuTable.setAttribute("style", "width: 100%;");
     menuTable.setAttribute("cellpadding", "0");
     menuTable.setAttribute("cellspacing", "0");
     for (i in menu.items) {
-        menuTable.appendChild(document.createElement("tr"));
-        menuTable.appendChild(document.createElement("td"));
+        var menuTableRow = menuTable.appendChild(document.createElement("tr"));
+        var menuTableRowData = menuTableRow.appendChild(document.createElement("td"));
         var rowTable = document.createElement("table");
-        rowTable.setAttribute("width", "100%");
+        rowTable.setAttribute("style", "width: 100%;");
         rowTable.setAttribute("cellpadding", "0");
         rowTable.setAttribute("cellspacing", "0");
-        rowTable.appendChild(document.createElement("tr"));
+        var rowTableRow = rowTable.appendChild(document.createElement("tr"));
         var width = Math.ceil(100 / menu.items[i].length) + "%";
         for (j in menu.items[i]) {
             var item = menu.items[i][j];
@@ -46,9 +46,9 @@ var OptionsMenu = function(menu) {
             }
             menuItem.appendChild(document.createElement("br"));
             menuItem.appendChild(document.createTextNode(item.label));
-            rowTable.appendChild(menuItem);
+            rowTableRow.appendChild(menuItem);
         }
-        menuTable.appendChild(rowTable);
+        menuTableRowData.appendChild(rowTable);
     }
     menuDiv.appendChild(menuTable);
     document.body.appendChild(menuDiv);

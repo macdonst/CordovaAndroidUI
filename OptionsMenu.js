@@ -18,7 +18,9 @@ var OptionsMenu = function(menu) {
     menuTable.setAttribute("style", "width: 100%;");
     menuTable.setAttribute("cellpadding", "0");
     menuTable.setAttribute("cellspacing", "0");
-    for (i in menu.items) {
+ 
+    for (var i = 0; i< menu.items.length; i++) {
+		
         var menuTableRow = menuTable.appendChild(document.createElement("tr"));
         var menuTableRowData = menuTableRow.appendChild(document.createElement("td"));
         var rowTable = document.createElement("table");
@@ -27,7 +29,7 @@ var OptionsMenu = function(menu) {
         rowTable.setAttribute("cellspacing", "0");
         var rowTableRow = rowTable.appendChild(document.createElement("tr"));
         var width = Math.ceil(100 / menu.items[i].length) + "%";
-        for (j in menu.items[i]) {
+        for (var j=0 ; j< menu.items[i].length ; j++) {
             var item = menu.items[i][j];
             var menuItem = document.createElement("td");
             menuItem.setAttribute("align", "center");
@@ -53,12 +55,20 @@ var OptionsMenu = function(menu) {
     menuDiv.appendChild(menuTable);
     document.body.appendChild(menuDiv);
     
+	// Outside handle
+	this.show = function(){
+		menuDiv.style.display = 'block';
+	}
+	
+	this.hide = function(){
+		menuDiv.style.display = 'none';
+	}
     // Listen for the menubutton event to hide/show the menu
     document.addEventListener("menubutton", function() {
         if (menuDiv.style.display == 'none') {
-            menuDiv.style.display = 'block';
+            this.show()
         } else {
-            menuDiv.style.display = 'none';
+            this.hide()
         }
     }, false);
 };
